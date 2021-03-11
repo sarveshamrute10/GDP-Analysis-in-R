@@ -1,0 +1,10 @@
+library(readr)
+data <- read_csv("S:\\R\\DS Home Assg\\UNdata_Export_20201117_190536867.csv")
+head(data)
+library(dplyr)
+newdata <- select(data,Country,Year,Item,Value)
+newdata <- filter(newdata,Country %in% c("Nigeria","Egypt","China, Macao Special Administrative Region","France","United States") & Item=="Gross Domestic Product (GDP)" & Year %in% c("1970","1980","1990","2000","2010","2018"))
+#newdata <- mutate(newdata, Value=Value)
+newdata
+library(ggplot2)
+newdata %>% ggplot(aes(Year,Value)) + geom_point() + facet_wrap(~Country)

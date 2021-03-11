@@ -1,0 +1,26 @@
+---
+title: "gdp vs life_expec.Rmd"
+author: "Group 6"
+date: "22/11/2020"
+output: html_document
+---
+```{r}
+library(dslabs)
+library(png)
+library(transformr)
+library(ggplot2)
+library(gganimate)
+library(tidyverse)
+library(ggthemes)
+data(gapminder)
+head(gapminder)
+newdata <- select(gapminder,country,year,life_expectancy,population,gdp,continent)
+newdata <- filter(newdata,continent %in% c("Africa","Europe","Asia") & year %in% c("1972","1982","1997","2010"))
+sapply(newdata,function(newdata)sum(is.na(newdata)))
+newdata <- newdata[rowSums(is.na(newdata))==0,]
+newdata <- mutate(newdata,gdpPerCapita=gdp/population)
+p1 <- ggplot(newdata,aes(gdpPerCapita,life_expectancy, col = continent,size=population/1.0e+06)) + geom_point(shape=16) + facet_grid(continent ~ year) + labs(title="GDP Per Capita vs Life Expectancy (1962 - 2010)",x="GDP Per Capita",y="Life Expectancy",col="Continent",size="Population") + scale_x_continuous(breaks=seq(0,60000,15000),limits=c(0,60000))
+library(ggthemes)
+p1 + theme_igray()
+```
+

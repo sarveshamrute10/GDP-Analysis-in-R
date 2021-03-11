@@ -1,0 +1,31 @@
+library(dslabs)
+data(gapminder)
+head(gapminder)
+library(tidyverse)
+library(dplyr)
+newdata <- select(gapminder,country,year,population,gdp,continent)
+newdata <- filter(newdata,continent %in% c("Asia","Africa","Europe") & year %in% c("1972","1982","1997","2010"))
+library(ggplot2)
+p1 <- ggplot(newdata,aes(continent,population/1.0e+06)) + geom_bar(stat="identity") +
+  labs(title="Population(in Millions) vs Continents (1972-2010)",x="Continents",y="Population(in Millions")
+library(gganimate)
+library(transformr)
+theme_bw()
+final1 <- p1+transition_time(year)
+anim_save("S:\\R\\DS Home Assg\\popcontinent.gif",final1)
+
+p2 <- ggplot(newdata,aes(continent,gdp/1.0e+09)) + geom_bar(stat="identity") +
+  labs(title="GDP(in Billions) vs Continents (1972-2010)",x="Continents",y="GDP(in Billions)")
+library(gganimate)
+library(transformr)
+theme_bw()
+final2 <- p2+transition_time(year)
+anim_save("S:\\R\\DS Home Assg\\gdpcontinent.gif",final2)
+
+p3 <- ggplot(newdata,aes(continent,gdp/population)) + geom_bar(stat="identity") +
+  labs(title="GDP Per Capita vs Continents (1972-2010)",x="Continents",y="GDP Per Capita")
+library(gganimate)
+library(transformr)
+theme_bw()
+final3 <- p3+transition_time(year)
+anim_save("S:\\R\\DS Home Assg\\gdppercapcontinent.gif",final3)
